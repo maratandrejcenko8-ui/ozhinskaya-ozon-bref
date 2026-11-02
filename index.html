@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<title>OZHINSKAYA на Ozon</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;600&display=swap">
+<style>
+/* Layout: one narrow column, sticky tab bar, dark graphite + silver (WOS VoC look). Type: Unbounded headings, Onest text. */
+:root{--bg:#f3f4f6;--panel:#ffffff;--line:#d9dce2;--fg:#14171d;--mute:#5d6573;--accent:#2b3340;--accent-fg:#ffffff;--bad:#b3261e;--bad-bg:#fbe9e7;--warn:#8a5a00;--warn-bg:#fff3d6;--ok:#1d6b3a;--ok-bg:#e3f4e8;--chip:#e9ebf0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#090b10;--panel:#12151c;--line:#232834;--fg:#f2f4f8;--mute:#9aa3b2;--accent:#d8dcd8;--accent-fg:#0a0c0f;--bad:#ff8a80;--bad-bg:#2a1514;--warn:#f2c46b;--warn-bg:#2a2210;--ok:#7bd69a;--ok-bg:#112419;--chip:#1b2029;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#090b10;--panel:#12151c;--line:#232834;--fg:#f2f4f8;--mute:#9aa3b2;--accent:#d8dcd8;--accent-fg:#0a0c0f;--bad:#ff8a80;--bad-bg:#2a1514;--warn:#f2c46b;--warn-bg:#2a2210;--ok:#7bd69a;--ok-bg:#112419;--chip:#1b2029;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.55 Onest,system-ui,sans-serif;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto}
+h1,h2,h3{font-family:Unbounded,Onest,sans-serif;font-weight:600;text-wrap:balance;margin:0}
+header{padding:28px 0 18px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.logo{width:30px;height:30px;border-radius:9px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font:600 15px Unbounded,sans-serif}
+h1{font-size:clamp(24px,6vw,36px);line-height:1.15;margin-top:18px}
+.lead{color:var(--mute);margin:12px 0 0;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill{font-size:13px;padding:4px 10px;border-radius:99px;background:var(--chip);color:var(--mute)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto}
+button{font:inherit;cursor:pointer}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--fg);padding:9px 14px;border-radius:12px;white-space:nowrap;font-weight:500}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.view{display:none;padding-top:22px}
+section.view.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font:600 28px Unbounded,sans-serif}
+.stat span{color:var(--mute);font-size:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:12px;min-width:0}
+.card h3{font-size:15px;margin-bottom:6px}
+p{margin:8px 0}
+.verdict{border-left:4px solid var(--warn);background:var(--warn-bg);padding:14px 16px;border-radius:10px;margin-top:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--fg);padding:6px 12px;border-radius:99px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.ev{display:flex;gap:12px}
+.rate{flex:none;min-width:44px;text-align:center;font-weight:600;border-radius:10px;padding:6px 0;height:fit-content}
+.r1{background:var(--bad-bg);color:var(--bad)}.r4{background:var(--ok-bg);color:var(--ok)}.rq{background:var(--chip);color:var(--mute)}
+.ev small{color:var(--mute);display:block;margin-top:4px}
+.q{font-style:normal;margin:6px 0 0}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--chip);color:var(--mute);margin-right:4px}
+.bar{height:10px;border-radius:99px;background:var(--chip);overflow:hidden;margin:6px 0 10px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+label.todo{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+label.todo input{width:20px;height:20px;margin-top:3px;flex:none;accent-color:var(--accent)}
+.todo b{display:block}.todo span{color:var(--mute);font-size:15px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);padding:10px 16px;border-radius:12px;font-weight:600;margin-top:12px}
+.note{font-size:14px;color:var(--mute)}
+footer{margin-top:32px;color:var(--mute);font-size:14px}
+ul{padding-left:20px;margin:8px 0}li{margin:4px 0}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="brand"><div class="logo">W</div>WOS VoC · разбор ситуации</div>
+  <h1>OZHINSKAYA на Ozon: что говорят покупатели</h1>
+  <p class="lead">Женская льняная капсула. Разбор публичных отзывов и вопросов покупателей на карточках бренда и что исправить в первую очередь.</p>
+  <div class="meta"><span class="pill">Дата: 2 ноября 2026</span><span class="pill">Источник: открытые отзывы Ozon</span><span class="pill">Выборка: 5 отзывов, 2 вопроса</span></div>
+</header>
+
+<nav role="tablist" aria-label="Разделы отчёта">
+  <button class="tab" role="tab" aria-selected="true" data-v="overview">Итог</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="evidence">Отзывы</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="plan">План действий</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="method">Как считали</button>
+</nav>
+
+<section class="view on" id="overview">
+  <div class="grid">
+    <div class="stat"><b>4 из 4</b><span>отзывов с текстом: товар не совпал с карточкой</span></div>
+    <div class="stat"><b>2</b><span>жалобы на размер и посадку</span></div>
+    <div class="stat"><b>2</b><span>вопроса покупателей: про размер и про страну производства</span></div>
+    <div class="stat"><b>0–2</b><span>отзывов на карточку: бренд пока малоизвестен</span></div>
+  </div>
+  <div class="verdict"><strong>Главный вывод.</strong> Покупатели недовольны не самой идеей бренда, а тем, что приходит товар, не похожий на карточку: другой цвет, другой фасон, непонятный состав. Пока это не исправлено, реклама будет приводить новых людей к тем же разочарованиям.</div>
+  <div class="card"><h3>Что это значит</h3>
+    <ul>
+      <li>Отзывов мало, поэтому судить об узнаваемости рано. Но у части карточек их 0–2, и бренд ещё не набрал доверие.</li>
+      <li>На карточках отвечает продавец TINGDAI, и он сообщает, что рубашки произведены в Китае, тогда как в фото указана Россия. Надо проверить, кто именно продаёт товары под именем OZHINSKAYA.</li>
+      <li>Покупатели просят то, что в карточке должно быть изначально: размерную сетку, состав, плотность ткани, настоящие фото.</li>
+    </ul>
+  </div>
+  <div class="card"><h3>Три шага, которые стоит сделать сначала</h3>
+    <ol><li>Выяснить, кто продаёт карточки бренда, и оставить одного проверенного продавца.</li><li>Привести фото, цвет, фасон и состав в карточках к реальному товару.</li><li>Включать рекламу только после этого.</li></ol>
+  </div>
+</section>
+
+<section class="view" id="evidence">
+  <p class="note">Показаны отзывы и вопросы покупателей без имён. Фильтр помогает увидеть, как часто повторяется каждая тема.</p>
+  <div class="chips" id="chips">
+    <button class="chip" aria-pressed="true" data-f="all">Все</button>
+    <button class="chip" aria-pressed="false" data-f="mismatch">Не как в карточке</button>
+    <button class="chip" aria-pressed="false" data-f="size">Размер</button>
+    <button class="chip" aria-pressed="false" data-f="origin">Состав и происхождение</button>
+  </div>
+  <div id="list"></div>
+  <div class="card"><h3>Частота тем</h3>
+    <div class="row"><span>Не соответствует карточке</span><b>4</b></div><div class="bar"><i style="width:100%"></i></div>
+    <div class="row"><span>Размер и посадка</span><b>3</b></div><div class="bar"><i style="width:75%"></i></div>
+    <div class="row"><span>Состав и страна производства</span><b>2</b></div><div class="bar"><i style="width:50%"></i></div>
+    <p class="note">Один отзыв может относиться к нескольким темам. Выборка очень маленькая, поэтому цифры показывают направление, а не точную долю.</p>
+  </div>
+</section>
+
+<section class="view" id="plan">
+  <p class="note">Отмечайте выполненное: галочки сохраняются в этом браузере.</p>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="seller"><div class="todo"><b>1. Навести порядок с продавцами</b><span>Выяснить, кто продаёт карточки бренда на Ozon. Оставить одного проверенного продавца или собственный магазин. Сомнительных поставщиков заменить, а чужие карточки с вашими фото проверить и при необходимости оспорить через поддержку Ozon.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="quality"><div class="todo"><b>2. Сделать ставку на качество</b><span>Заказать контрольные образцы у каждого поставщика. Сравнить цвет, фасон, ткань с карточкой. Закупать только то, что выглядит так же, как на фото.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="cards"><div class="todo"><b>3. Исправить карточки</b><span>Реальные фото и видео, точный цвет, замеры изделий, плотность ткани и состав. Одно и то же место производства в фото и в характеристиках. На изделии должна быть бирка с составом на русском.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="size"><div class="todo"><b>4. Разобраться с размерами</b><span>Добавить таблицу размеров с замерами. Один отзыв называет модель большемеркой, другой не находит оверсайза. Размерный ряд начинается с 44, а покупатели с размером 40 спрашивают, подойдёт ли он.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="reply"><div class="todo"><b>5. Отвечать на отзывы и вопросы</b><span>Отвечать на негатив в течение суток, предлагать возврат или обмен. Отвечать на вопросы про усадку ткани и уход прямо в карточке.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="ads"><div class="todo"><b>6. Запускать рекламу после исправлений</b><span>Реклама увеличивает число покупок, а вместе с ними число жалоб. Когда карточки совпадают с товаром и появятся первые хорошие отзывы, рекламу можно включать.</span></div></label></div>
+  <div class="card"><label class="todo"><input type="checkbox" data-k="monitor"><div class="todo"><b>7. Следить за отзывами каждый месяц</b><span>Раз в месяц собирать отзывы по всем товарам и смотреть, какие темы выросли. Для этого и нужен WOS VoC.</span></div></label></div>
+  <button class="btn" id="copy">Скопировать краткий итог</button> <span class="note" id="copied"></span>
+</section>
+
+<section class="view" id="method">
+  <div class="card"><h3>Откуда данные</h3><p>Публичные отзывы и вопросы покупателей на карточках OZHINSKAYA в приложении Ozon, 2 ноября 2026. Доступа к личному кабинету продавца у нас нет, поэтому статистику продаж и возвратов мы не видели.</p></div>
+  <div class="card"><h3>Что можно утверждать</h3><ul><li>Покупатели в отзывах пишут о несоответствии карточке, размере и составе.</li><li>На вопрос о стране производства отвечено «Китай», а в фото указана Россия.</li></ul></div>
+  <div class="card"><h3>Что остаётся гипотезой</h3><ul><li>Кто именно продаёт все карточки: бренд или перепродавцы.</li><li>Масштаб проблемы: выборка из 5 отзывов слишком мала для долей и процентов.</li></ul></div>
+  <div class="card"><h3>Как сделать точнее</h3><p>Подключить кабинет Ozon (нужна подписка Premium Plus для отзывов) или передать выгрузку отзывов за 3–6 месяцев. Тогда отчёт строится автоматически по всем товарам в WOS VoC.</p></div>
+</section>
+
+<footer>Подготовил WOS · WOS VoC, аналитика отзывов для fashion-брендов · t.me/marat_ws</footer>
+</div>
+
+<script>
+const DATA=[
+ {r:'1★',c:'r1',t:'Рубашка, размер 50',x:'«То, что на фото, не соответствует действительности».',d:'14 сентября 2026',g:['mismatch']},
+ {r:'4★',c:'r4',t:'Рубашка, размер 44',x:'«Рубашка совсем не оверсайз. Сомневаюсь, что в составе лён. Нет бирки о составе, всё на китайском. Не белоснежная. Фасон приталенный, наоборот. Сшито неплохо. Хотела отказаться, но забрала под пиджак».',d:'22 сентября 2026',g:['mismatch','size','origin']},
+ {r:'1★',c:'r1',t:'Шорты, размер 48',x:'«Не соответствует описанию ни фасоном, ни цветом». Отметка: большемерит.',d:'31 октября 2026',g:['mismatch','size']},
+ {r:'—',c:'rq',t:'Шорты, размер 48',x:'«Пришли совсем другие шорты, не как на карточке товара. Не советую продавца».',d:'без даты на скриншоте',g:['mismatch']},
+ {r:'5★',c:'r4',t:'Шорты, размер 48',x:'Оценка без текста.',d:'24 августа 2026',g:[]},
+ {r:'?',c:'rq',t:'Вопрос покупателя',x:'«Размерный ряд начинается с 44, мой размер 40. Ваш 44 подойдёт? Ткань даёт усадку после стирки?» Ответ продавца: подходит для 40 и не выцветает. Про усадку не сказано.',d:'3 августа',g:['size']},
+ {r:'?',c:'rq',t:'Вопрос покупателя',x:'«Чьё производство рубашки? В карточке написано Китай, а на фото Россия, Новосибирск». Ответ продавца: рубашки произведены в Китае.',d:'9 июля',g:['origin']}
+];
+const LBL={mismatch:'Не как в карточке',size:'Размер',origin:'Состав и происхождение'};
+function esc(s){return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+function draw(f){document.getElementById('list').innerHTML=DATA.filter(i=>f==='all'||i.g.includes(f)).map(i=>`<div class="card ev"><div class="rate ${i.c}">${i.r}</div><div><h3>${esc(i.t)}</h3><p class="q">${esc(i.x)}</p><small>${i.d}</small><div style="margin-top:6px">${i.g.map(g=>`<span class="tag">${LBL[g]}</span>`).join('')}</div></div></div>`).join('')}
+draw('all');
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;document.querySelectorAll('#chips .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));draw(b.dataset.f)});
+const tabs=document.querySelectorAll('.tab');
+function show(v){tabs.forEach(t=>t.setAttribute('aria-selected',t.dataset.v===v));document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id===v));window.scrollTo({top:0})}
+tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.v)));
+let saved={};try{saved=JSON.parse(localStorage.getItem('ozh-plan')||'{}')}catch(e){}
+document.querySelectorAll('[data-k]').forEach(c=>{c.checked=!!saved[c.dataset.k];c.addEventListener('change',()=>{saved[c.dataset.k]=c.checked;try{localStorage.setItem('ozh-plan',JSON.stringify(saved))}catch(e){}})});
+document.getElementById('copy').addEventListener('click',async()=>{
+ const t='OZHINSKAYA на Ozon: покупатели жалуются, что товар не совпадает с карточкой (цвет, фасон, состав), есть вопросы по размеру и стране производства. Что делать: оставить одного проверенного продавца, сделать ставку на качество, исправить карточки и размерную сетку, отвечать на отзывы, запускать рекламу после исправлений.';
+ const o=document.getElementById('copied');
+ try{await navigator.clipboard.writeText(t);o.textContent='Скопировано'}catch(e){o.textContent='Не удалось скопировать, выделите текст вручную'}
+});
+</script>
+
+</body>
+</html>
